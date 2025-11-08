@@ -1,10 +1,10 @@
-import os #for file and directory operations
-import shutil  #for moving files
+import os      # for working with files and folders
+import shutil  # for moving files
 
-# 1. Define the folder you want to organize
+# 1. Folder to organise
 source_folder = "/workspaces/file_organiser/test_folder"
 
-# 2. Define the file categories
+# 2. File categories and their extensions
 file_types = {
     "Documents": [".pdf", ".docx", ".txt", ".xlsx"],
     "Images": [".jpg", ".jpeg", ".png"],
@@ -12,35 +12,32 @@ file_types = {
     "Archives": [".zip", ".rar"]
 }
 
-# 3. Loop through all files in the source folder that contains files to be organised
+# 3. Loop through everything in the folder
 for filename in os.listdir(source_folder):
-            
-            #First create a path for the filenames as you would need it later to check if items in source_folder (filename)\
-            #are files not folders
-            source_path = os.path.join(source_folder, filename)
-            #check if item is file not a subfolder
-            if os.path.isfile(source_path):
-                            #get each of their file types, e.g. document.pdf which is a pdf.
-                            name, filetype = os.path.splitext(filename) #this gives you the name and the file type with the '.'
 
-                            #check to see if filetype is in file_types dictionary, if so, create and store it in its category
-                            for category, extension in file_types.items():
-                    
-                                    if filetype in extension:
-                                            #first you have to define the destination_folder, which is where you are storing the file
-                                            destination_folder = os.path.join(source_folder, category)
-                                            #This creates the desitnation folder called the category name in the source folder. If folder already exists then it moves on without producing error messages.
-                                            os.makedirs(destination_folder, exist_ok = True)
-                                            #This actually moves the file from its source to its destination. The 'Path' is needed.
-                                            destination_path = os.path.join(destination_folder,filename)
-                                            shutil.move(source_path, destination_path)
-                                            break
+    # Get the full path to each item
+    source_path = os.path.join(source_folder, filename)
 
+    # Check if the item is a file (ignore subfolders)
+    if os.path.isfile(source_path):
 
-            else:
-                    continue # this skips over the folders.
-            
-                
-                                           
-                                
+        # Split the file name and extension (e.g., "photo.jpg" -> ".jpg")
+        name, filetype = os.path.splitext(filename)
 
+        # Find which category this file type belongs to
+        for category, extensions in file_types.items():
+            if filetype in extensions:
+
+                # Create the destination folder (if it doesn’t already exist)
+                destination_folder = os.path.join(source_folder, category)
+                os.makedirs(destination_folder, exist_ok=True)
+
+                # Move the file into its matching folder
+                destination_path = os.path.join(destination_folder, filename)
+                shutil.move(source_path, destination_path)
+
+                # Stop checking once a match is found
+                break
+
+    else:
+        continue  # skip folders and move to the next item
