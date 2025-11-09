@@ -1,28 +1,47 @@
 ## file_organiser
-A simple Python automation script that sorts files into organised folders based on their file type (e.g., documents, images, videos, archives).
+
+A simple Python automation script that sorts files into organised folders based on their file type (e.g. documents, images, videos, archives).
 Perfect for cleaning up messy directories such as your Downloads folder.
 
 ## Features
+
 Automatically detects file types and organises them into categorised folders.
+
 Supports common file formats (documents, images, videos, archives).
-Easily customisable — add new categories and extensions.
-Prevents overwriting existing files.
+
+Includes an “Other” folder for files that do not match any known category.
+
+Easily customisable — add or remove categories and file extensions.
+
+Prevents overwriting or deleting existing files.
 
 ## How It Works
-Specify the folder path you want to organise in the script.
-The programme scans all files in that directory.
-Each file is moved into a corresponding subfolder (e.g., Documents, Images, Videos, Archives).
-Archive files (e.g., .zip, .rar) are moved to the Archives folder.
 
-## Setup
-Run the script using:
+Specify the folder path you want to organise inside the script.
 
-python organiser.py
+The programme scans all files within that directory.
 
-## Example folder structure after running
+Each file is moved into a corresponding subfolder:
+
+Documents → .pdf, .docx, .txt, .xlsx
+
+Images → .jpg, .jpeg, .png
+
+Videos → .mp4, .mov
+
+Archives → .zip, .rar
+
+Any files that do not fit these categories are moved to an “Other” folder.
+This ensures every file has a place without being skipped or lost.
+
+## Example Folder Structure
+
+After running the script:
+
 Downloads/
 │
 ├── organiser.py
+│
 ├── Documents/
 │   ├── report.pdf
 │   ├── notes.txt
@@ -33,13 +52,15 @@ Downloads/
 ├── Videos/
 │   ├── clip.mp4
 │
-└── Archives/
-    ├── project.zip
+├── Archives/
+│   ├── project.zip
+│
+└── Other/
+    ├── randomfile.xyz
 
 ## Customisation
 
-Edit the file_types dictionary in the script to adjust which extensions belong to each 
-category:
+You can edit the file categories and extensions directly in the script by modifying the dictionary below:
 
 file_types = {
     "Documents": [".pdf", ".docx", ".txt", ".xlsx"],
@@ -48,15 +69,31 @@ file_types = {
     "Archives": [".zip", ".rar"]
 }
 
+
+Add or remove categories and file extensions as needed.
+
+## Setup
+
+Run the script using:
+
+python organiser.py
+
+
+Make sure to update the source_folder path at the top of the script to the directory you wish to organise.
+
 ## Requirements
+
 Python 3.x
 
+No additional modules are required beyond the built-in os and shutil libraries.
+
 ## Installation
+
 Clone this repository and navigate into the folder:
 
 git clone https://github.com/Uchenna1-dev/file_organiser.git
-
 cd file_organiser
 
 ## Author
-Created by Uchenna1-dev.
+
+Created by Uchenna1-dev

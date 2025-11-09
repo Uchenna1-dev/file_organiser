@@ -1,10 +1,10 @@
-import os      # for working with files and folders
-import shutil  # for moving files
+import os      # For working with files and folders
+import shutil  # For moving files
 
-# 1. Folder to organise
+# 1. Define the folder to organise
 source_folder = "/workspaces/file_organiser/test_folder"
 
-# 2. File categories and their extensions
+# 2. Define file categories and their extensions
 file_types = {
     "Documents": [".pdf", ".docx", ".txt", ".xlsx"],
     "Images": [".jpg", ".jpeg", ".png"],
@@ -12,32 +12,47 @@ file_types = {
     "Archives": [".zip", ".rar"]
 }
 
-# 3. Loop through everything in the folder
+# 3. Loop through every item in the source folder
 for filename in os.listdir(source_folder):
 
-    # Get the full path to each item
+    # Get the full path to the current item
     source_path = os.path.join(source_folder, filename)
 
-    # Check if the item is a file (ignore subfolders)
+    # Only process files (ignore any existing folders)
     if os.path.isfile(source_path):
 
-        # Split the file name and extension (e.g., "photo.jpg" -> ".jpg")
+        # Split the file name and extension (e.g. “photo.jpg” → “photo”, “.jpg”)
         name, filetype = os.path.splitext(filename)
 
-        # Find which category this file type belongs to
-        for category, extensions in file_types.items():
-            if filetype in extensions:
+        # Assume the file doesn’t match any category yet
+        match = False
 
-                # Create the destination folder (if it doesn’t already exist)
+        # Check each category in the dictionary
+        for category, extensions in file_types.items():
+
+            # If the file’s extension matches this category
+            if filetype in extensions:
+                match = True
+
+                # Create the destination folder if it doesn’t already exist
                 destination_folder = os.path.join(source_folder, category)
                 os.makedirs(destination_folder, exist_ok=True)
 
-                # Move the file into its matching folder
+                # Move the file into its category folder
                 destination_path = os.path.join(destination_folder, filename)
                 shutil.move(source_path, destination_path)
 
-                # Stop checking once a match is found
+                # Stop checking once a match has been found
                 break
 
+        # If no match was found, move the file into an “other” folder
+        if match == False:
+            destination_folder = os.path.join(source_folder, "other")
+            os.makedirs(destination_folder, exist_ok=True)
+
+            destination_path = os.path.join(destination_folder, filename)
+            shutil.move(source_path, destination_path)
+
     else:
-        continue  # skip folders and move to the next item
+        # Skip any folders and continue with the next item
+        continue
